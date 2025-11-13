@@ -1,0 +1,44 @@
+// DO NOT MODIFY THIS FILE
+buildscript {
+    repositories {
+        maven {
+            credentials {
+                username ''
+                password transformsBearerToken
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+            url project.transformsMavenProxyRepoUri
+        }
+    }
+
+    dependencies {
+        classpath "com.palantir.transforms.java:lang-java-gradle-plugin:${transformsJavaVersion}"
+    }
+}
+
+apply plugin: 'com.palantir.transforms.lang.java'
+apply plugin: 'com.palantir.transforms.lang.java-defaults'
+
+dependencies {
+    compileOnly files('lib/carolina-jdbc-2.4.5.jar')
+}
+
+task copyJarClasses(type: Copy) {
+    from(zipTree('lib/carolina-jdbc-2.4.5.jar')) {
+        include "**/*.class"
+    }
+    into "$buildDir/classes/java/main"
+}
+
+task copyJarResources(type: Copy) {
+    from(zipTree('lib/carolina-jdbc-2.4.5.jar')) {
+        exclude "**/*.class"
+        exclude "META-INF/MANIFEST.MF"
+    }
+    into "$buildDir/resources/main"
+}
+
+tasks.classes.dependsOn copyJarResources
+tasks.classes.dependsOn copyJarClasses

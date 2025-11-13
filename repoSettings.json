@@ -1,0 +1,7 @@
+{ 
+ "tagNameValidation": {
+ "regex": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(.uat\\d+|.dev\\d+)?$",
+ "errorMessage": "Tag name must have the format x.x.x or x.x.x.devx or x.x.x.uatx"
+ },
+ "prDescriptionTemplate": "First line of the description template\nAnd another line with instructions"
+}
